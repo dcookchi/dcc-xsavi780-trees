@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Daniel Chi Cook | xsavi780</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <!-- Load Leaflet CSS -->
+    <link href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" rel="stylesheet">
+    <!-- Load Marker Cluster CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" />
+    <!-- Mapbox GL -->
+    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css"/>
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+  </head>  
+  <body>
+    
+    <div class="sidebar">
+      <div class="sidebar-content">
+        <p>
+          This web map visualizes the results of a preliminary mapping of 1823 trees within the neighborhood of Battery Park City,
+          including trees inside parks in addition to those that line sidewalks ("street trees"). Point data consists of the locations
+          of trees as well as their species name. Species names were determined with assistance from staff of the Battery Park City
+          Authority Horticulture department. The location attributes of trees were translated into a GIS-compatible format using
+          a combination of field surveying and "heads-up" digitizing using QGIS.
+        </p>
+        <p>
+          Further data management and cleaning was done in Python (pandas and geopandas). This web map primarily uses Leaflet for mapping
+          functionality and interactivity, including the Marker Clusters plug-in and Mustache for popups. The base map was customized using Mapbox. 
+          Scrolling over a point (tree) highlights all trees of the same species. Pressing the "see park areas" button loads polygons that correspond to the rough maintenance
+          boundaries of BPCA's park areas. Counts of trees within these park areas are achieved using Turf.js. 
+        </p>
+      </div>
+    </div>
+    
+    <div id="map"></div>
+    
+    <div class="overlay">
+      <button class="load-data-parks">
+         See park areas with tree counts
+       </button> 
+        <button class="load-data-trees">
+         Hide park areas
+        </button>
+       
+       <div class="sidebar-content"></div>
+    </div>
+      
+    <!--
+      This script element will not be displayed, it just holds our template
+    -->
+    <script class="popup-template" type="x-tmpl-mustache">
+      <div>
+        <h2><em>{{scientific}}</em></h2>
+        <div>common name: {{common}}</div>
+        <div>area: {{park}}</div>
+        <div><a href="https://en.wikipedia.org/w/index.php?search={{scientific}}" target="_blank">wikipedia page</a></div>
+      </div>
+    </script>
+    
+    <script class="popup-template2" type="x-tmpl-mustache">
+      <div>
+        <h2>{{layer}}</h2>
+        <div>{{treesCount}} trees</div>
+      </div>
+    </script>
+    
+
+    
+    <!-- Load Leaflet library -->
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    <!-- Load Promises polyfill -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+    <!-- Load Fetch polyfill -->
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.4/fetch.js"></script>
+    <!-- import the Mustache library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.0/mustache.min.js"></script>
+    <!-- import the Marker Cluster library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
+    <!-- Mapbox GL and Leaflet-Mapbox-GL plugin -->
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js"></script>
+    <script src="https://rawgit.com/mapbox/mapbox-gl-leaflet/master/leaflet-mapbox-gl.js"></script>
+    <!-- Load D3 -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.js"></script>
+    <!-- Load Turf -->
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+    <!-- import the webpage's javascript file -->
+    <script src="/script.js" defer></script>
+  </body>
+</html>
