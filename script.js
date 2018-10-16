@@ -57,14 +57,23 @@ function loadTrees(){
             };
           },
           onEachFeature: function(feature, layer){
+              // making popups using Mustache for each tree point
               layer.bindPopup(function (layer) {
                 return Mustache.render(popupTemplate, layer.feature.properties);
               });
+              // making it so points highlight upon mouse hover
               layer.on({
                 //mouseover: highlightFeature,
                 mouseover: highlightSameSpecies,
                 mouseout: resetHighlight
               });
+              // making it so the Mustache content from the popup shows up in the sidebar too
+              layer.on('mouseover', function () {
+              // console.log(layer.feature.properties);
+              var sidebarContentArea = document.querySelector('.sidebar-content-popup');
+              // console.log(sidebarContentArea);
+              sidebarContentArea.innerHTML = Mustache.render(popupTemplate, layer.feature.properties);
+            });
           },
         },
       );
